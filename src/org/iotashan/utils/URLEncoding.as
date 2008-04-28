@@ -32,12 +32,12 @@ package org.iotashan.utils
 					output += match[1];
 					i += match[1].length;
 				} else {
-					if (input[i] == ' ') {
-						output += '+';
+					if (input.substr(i,1) == " ") {
+						output += "+";
 					} else {
 						charCode = input.charCodeAt(i);
 						hexVal = charCode.toString(16);
-						output += '%' + ( hexVal.length < 2 ? '0' : '' ) + hexVal.toUpperCase();
+						output += "%" + ( hexVal.length < 2 ? "0" : "" ) + hexVal.toUpperCase();
 					}
 					i++;
 				}
@@ -60,6 +60,11 @@ package org.iotashan.utils
 			
 			var match:Object;
 			
+			// change "+" to spaces
+			var plusPattern:RegExp = /\+/gm;
+			output = output.replace(plusPattern," ");
+			
+			// convert all other characters
 			while ((match = myregexp.exec(output)) != null && match.length > 1 && match[1] != '') {
 				binVal = parseInt(match[1].substr(1),16);
 				thisString = String.fromCharCode(binVal);
