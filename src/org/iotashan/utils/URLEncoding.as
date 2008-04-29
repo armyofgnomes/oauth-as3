@@ -18,7 +18,7 @@ package org.iotashan.utils
 		public static function encode(input:String):String {
 			var output:String = "";
 			var i:Number = 0;
-			var exclude:RegExp = /(^[a-zA-Z0-9_\.-~]*)/;
+			var exclude:RegExp = /(^[a-zA-Z0-9_\.~-]*)/;
 			
 			var match:Object;
 			var charCode:Number;

@@ -28,12 +28,14 @@ package org.iotashan.oauth
 			var sSec:String = aSec.join("&");
 			
 			// hash them
-			var hmac:HMAC = Crypto.getHMAC("SHA-1");
+			var hmac:HMAC = Crypto.getHMAC("sha1");
 			var key:ByteArray = Hex.toArray(Hex.fromString(sSec));
 			var message:ByteArray = Hex.toArray(Hex.fromString(toBeSigned));
 			var result:ByteArray = hmac.compute(key,message);
 			
-			return Hex.toString(Hex.fromArray(result));
+			var ret:String = Hex.fromArray(result);
+			
+			return ret;
 		}
 	}
 }

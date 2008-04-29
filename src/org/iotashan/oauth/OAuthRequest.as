@@ -133,6 +133,8 @@ package org.iotashan.oauth
 			}
 			
 			// generate the signature
+			trace(getSignableParameters());
+			trace(getSignableString());
 			var signature:String = signatureMethod.signRequest(this);
 			_requestParams["oauth_signature"] = signature;
 			
@@ -143,7 +145,7 @@ package org.iotashan.oauth
 				break;
 				case RESULT_TYPE_URL_VARIABLES:
 					var ret2:URLVariables = new URLVariables();
-					for each (var param:Object in _requestParams) {
+					for (var param:Object in _requestParams) {
 						ret2[param] = _requestParams[param];
 					}
 					
@@ -155,7 +157,7 @@ package org.iotashan.oauth
 					data += "OAuth "
 					if (headerRealm.length > 0)
 						data += "realm=\"" + headerRealm + "\"";
-					for each (param in _requestParams) {
+					for (param in _requestParams) {
 						// if this is an oauth param, include it
 						if (param.toString().indexOf("oauth") == 0) {
 							data += "," + param + "=\"" + _requestParams.param + "\"";
@@ -210,7 +212,9 @@ package org.iotashan.oauth
 		public function getSignableString():String {
 			// create the string to be signed
 			var ret:String = URLEncoding.encode(_httpMethod.toUpperCase());
+			ret += "&";
 			ret += URLEncoding.encode(_requestURL);
+			ret += "&";
 			ret += URLEncoding.encode(getSignableParameters());
 			
 			return ret;
