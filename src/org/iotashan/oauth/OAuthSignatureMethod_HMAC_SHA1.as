@@ -2,6 +2,7 @@ package org.iotashan.oauth
 {
 	import com.hurlant.crypto.Crypto;
 	import com.hurlant.crypto.hash.HMAC;
+	import com.hurlant.util.Base64;
 	import com.hurlant.util.Hex;
 	
 	import flash.utils.ByteArray;
@@ -21,19 +22,20 @@ package org.iotashan.oauth
 			var toBeSigned:String = request.getSignableString();
 			
 			// get the secrets to encrypt with
-			var aSec:Array = new Array();
-			aSec.push(request.consumer.secret);
+			var sSec:String = request.consumer.secret + "&"
 			if (request.token)
-				aSec.push(request.token.secret);
-			var sSec:String = aSec.join("&");
+				sSec += request.token.secret;
 			
 			// hash them
 			var hmac:HMAC = Crypto.getHMAC("sha1");
 			var key:ByteArray = Hex.toArray(Hex.fromString(sSec));
 			var message:ByteArray = Hex.toArray(Hex.fromString(toBeSigned));
+
+			trace(sSec);
+			trace(toBeSigned);
+
 			var result:ByteArray = hmac.compute(key,message);
-			
-			var ret:String = Hex.fromArray(result);
+			var ret:String = Base64.encodeByteArray(result);
 			
 			return ret;
 		}

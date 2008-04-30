@@ -13,12 +13,11 @@ package org.iotashan.oauth
 		}
 		
 		public function signRequest(request:OAuthRequest):String {
-			var aSignature:Array = new Array();
-			aSignature.push(URLEncoding.encode(request.consumer.secret));
+			var sSec:String = request.consumer.secret + "&"
 			if (request.token)
-				aSignature.push(URLEncoding.encode(request.token.secret));
-			
-			return aSignature.join("&");
+				sSec += request.token.secret;
+				
+			return sSec;
 		}
 	}
 }

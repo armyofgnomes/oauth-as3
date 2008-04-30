@@ -133,8 +133,6 @@ package org.iotashan.oauth
 			}
 			
 			// generate the signature
-			trace(getSignableParameters());
-			trace(getSignableString());
 			var signature:String = signatureMethod.signRequest(this);
 			_requestParams["oauth_signature"] = signature;
 			
@@ -144,6 +142,8 @@ package org.iotashan.oauth
 					return ret1;
 				break;
 				case RESULT_TYPE_URL_VARIABLES:
+					// this is possibly going to give you corrupt results, because the
+					// flash player auto-encodes URLVariables, but not according to spec
 					var ret2:URLVariables = new URLVariables();
 					for (var param:Object in _requestParams) {
 						ret2[param] = _requestParams[param];
