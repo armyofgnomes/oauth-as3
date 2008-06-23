@@ -168,7 +168,7 @@ package org.iotashan.oauth
 					for (param in _requestParams) {
 						// if this is an oauth param, include it
 						if (param.toString().indexOf("oauth") == 0) {
-							data += "," + param + "=\"" + _requestParams[param] + "\"";
+							data += "," + param + "=\"" + URLEncoding.encode(_requestParams[param]) + "\"";
 						}
 					}
 
