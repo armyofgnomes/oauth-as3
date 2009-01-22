@@ -117,11 +117,18 @@ package org.iotashan.oauth
 		/**
 		 * Builds out the request as you need to use it.
 		*/
-		public function buildRequest(signatureMethod:IOAuthSignatureMethod,resultType:String=RESULT_TYPE_URL_STRING,headerRealm:String=""):* {
-			var curDate:Date = new Date();
+		public function buildRequest(signatureMethod:IOAuthSignatureMethod, resultType:String=RESULT_TYPE_URL_STRING, headerRealm:String="", serverDate:String=""):* {
+			var curDate:Date;
+			
+			if (serverDate == "") {
+				curDate = new Date();
+			} else {
+				curDate = new Date(serverDate);
+			}
 			var uuid:String = UIDUtil.getUID(curDate);
 
 			// first, let's add the oauth required params
+			_requestParams["oauth_version"] = '1.0';
 			_requestParams["oauth_nonce"] = uuid;
 			_requestParams["oauth_timestamp"] = String(curDate.time).substring(0, 10);
 			_requestParams["oauth_consumer_key"] = _consumer.key;
